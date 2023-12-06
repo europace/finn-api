@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "Accounts API",
+    "title": "Finn API",
     "version": "1.0.0",
     "description": "API to invite customers to Finn"
   },
