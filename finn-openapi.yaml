@@ -1,0 +1,131 @@
+openapi: "3.0.3"
+info:
+  title: "Finn API"
+  version: "1.0.0"
+  description: "API to invite customers to Finn"
+servers:
+  - url: "https://finn.api.europace.de"
+    description: "Production endpoint"
+  - url: "https://mtp.finn.api.europace.de"
+    description: "MTP endpoint"
+paths:
+  /accounts/v1/cases/{caseId}/invitations:
+    post:
+      operationId: "createInvitation"
+      tags:
+        - "Invitations"
+      summary: "Creates an invitation for specified case"
+      description: "Returned link (`href`) can be used in emails of consultant to invite customer to Finn. Prerequisites: Existing case in BaufiSmart containing at least one applicant with email address, first and last name."
+      parameters:
+        - in: "path"
+          name: "caseId"
+          schema:
+            type: "string"
+          required: true
+          description: "ID of case"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateInvitationRequestDto"
+      responses:
+        201:
+          description: "Created invitation object"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateInvitationResponseDto"
+        400:
+          description: "BadRequest error"
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/Error"
+                  - $ref: "#/components/schemas/NoApplicantWithUserEmailError"
+                  - $ref: "#/components/schemas/PropertyMissingOnApplicantError"
+        401:
+          description: "Error occurs if provided token is invalid, missing or expired"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        403:
+          description: "Error occurs if partner is not editor of specified case"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    Error:
+      type: "object"
+      properties:
+        message:
+          type: "string"
+    NoApplicantWithUserEmailError:
+      allOf:
+        - $ref: "#/components/schemas/Error"
+        - type: "object"
+          description: "Error occurs if no applicant with specified email exists on case"
+          properties:
+            errorCode:
+              type: "string"
+              enum:
+                - "no_applicant_with_useremail"
+    PropertyMissingOnApplicantError:
+      allOf:
+        - $ref: "#/components/schemas/Error"
+        - type: "object"
+          description: "Error occurs if firstname or lastname is missing on applicant"
+          properties:
+            errorCode:
+              type: "string"
+              enum:
+                - "property_missing_on_applicant"
+    CreateInvitationRequestDto:
+      type: "object"
+      properties:
+        userEmail:
+          type: "string"
+      required:
+        - "userEmail"
+      additionalProperties: false
+    CreateInvitationResponseDto:
+      type: "object"
+      properties:
+        href:
+          type: "string"
+          description: "Invitation link for customer"
+        userEmail:
+          type: "string"
+          description: "Specified email of customer"
+        advisorId:
+          type: "string"
+          description: "PartnerId of advisor (\"Kundenbetreuer\") for specified case"
+        caseId:
+          type: "string"
+          description: "ID of specified case (\"Vorgangsnummer\")"
+        caseOrigin:
+          type: "string"
+          enum:
+            - "baufismart"
+        expiresAt:
+          type: "number"
+          description: "Expiration of invitation defined in epoch time format in seconds"
+        createdAt:
+          type: "string"
+          format: "date-time"
+        updatedAt:
+          type: "string"
+          format: "date-time"
+      required:
+        - "href"
+        - "userEmail"
+        - "caseId"
+        - "caseOrigin"
+        - "advisorId"
+        - "createdAt"
+        - "updatedAt"
+        - "expiresAt"
