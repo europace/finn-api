@@ -29,7 +29,7 @@ Existing case in BaufiSmart containing at least one applicant with email address
 
 Example request:
 ``` http
-POST /v1/cases/{caseId}/invitations
+POST /accounts/v1/cases/{caseId}/invitations
 Host: finn.api.europace.de
 Content-Type: application/json 
 Authorization: Bearer {{access-token}}
