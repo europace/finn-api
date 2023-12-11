@@ -7,16 +7,16 @@
   },
   "servers": [
     {
-      "url": "https://finn.api.europace.de/accounts",
+      "url": "https://finn.api.europace.de",
       "description": "Production endpoint"
     },
     {
-      "url": "https://mtp.finn.api.europace.de/accounts",
+      "url": "https://mtp.finn.api.europace.de",
       "description": "MTP endpoint"
     }
   ],
   "paths": {
-    "/v1/cases/{caseId}/invitations": {
+    "/accounts/v1/cases/{caseId}/invitations": {
       "post": {
         "operationId": "createInvitation",
         "tags": [
