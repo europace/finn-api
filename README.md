@@ -25,7 +25,8 @@ Please use [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)](h
 Creates an invitation for specified case. Returned link (`href`) can be used in emails of advisor to invite customer to Finn. 
 
 Requirements:
-Existing case in BaufiSmart containing at least one applicant with email address, first and last name.
+- Existing case in BaufiSmart containing at least one applicant with email address, first and last name.
+- The Partner-ID your API client is authorized with has to be the advisor (Kundenbetreuer) or editor (Bearbeiter) of the case. (You can change advisor or editor via [Vorgaenge-API](https://docs.api.europace.de/baufinanzierung/vorgaenge/vorgang-auslesen-api/)) 
 
 Example request:
 ``` http
