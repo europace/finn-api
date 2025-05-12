@@ -18,6 +18,11 @@
   "paths": {
     "/accounts/v1/cases/{caseId}/invitations": {
       "post": {
+        "security": [
+          {
+            "oauth2": []
+          }
+        ],
         "operationId": "createInvitation",
         "tags": [
           "Invitations"
@@ -101,6 +106,17 @@
     }
   },
   "components": {
+    "securitySchemes": {
+      "oauth2": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "scopes": {},
+            "tokenUrl": "https://api.europace.de/auth/token"
+          }
+        }
+      }
+    },
     "schemas": {
       "Error": {
         "type": "object",
