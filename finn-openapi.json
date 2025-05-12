@@ -1,22 +1,22 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "Accounts API",
+    "title": "Finn API",
     "version": "1.0.0",
     "description": "API to invite customers to Finn"
   },
   "servers": [
     {
-      "url": "https://finn.api.europace.de/accounts",
+      "url": "https://finn.api.europace.de",
       "description": "Production endpoint"
     },
     {
-      "url": "https://mtp.finn.api.europace.de/accounts",
+      "url": "https://mtp.finn.api.europace.de",
       "description": "MTP endpoint"
     }
   ],
   "paths": {
-    "/v1/cases/{caseId}/invitations": {
+    "/accounts/v1/cases/{caseId}/invitations": {
       "post": {
         "security": [
           {
